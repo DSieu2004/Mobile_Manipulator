@@ -1,0 +1,35 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Husky UR5e description",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"source /opt/ros/humble/setup.bash && colcon build --packages-select husky_ur5e_description"
+			],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "View Husky UR5e in RViz",
+			"type": "shell",
+			"command": "${workspaceFolder}/scripts/view_rviz.sh",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build OCS2 mobile manipulator",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"-lc",
+				"source /opt/ros/humble/setup.bash && export CMAKE_PREFIX_PATH=$PWD/third_party/ros/opt/ros/humble:$CMAKE_PREFIX_PATH && export LD_LIBRARY_PATH=$PWD/third_party/ros/opt/ros/humble/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH && colcon build --packages-up-to ocs2_mobile_manipulator_ros --symlink-install"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

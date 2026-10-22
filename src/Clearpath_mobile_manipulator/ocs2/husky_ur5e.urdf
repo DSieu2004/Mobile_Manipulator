@@ -1,0 +1,548 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="husky_ur5e">
+  <material name="dark_grey">
+    <color rgba="0.2 0.2 0.2 1.0" />
+  </material>
+  <material name="medium_grey">
+    <color rgba="0.6 0.6 0.6 1.0" />
+  </material>
+  <material name="light_grey">
+    <color rgba="0.8 0.8 0.8 1.0" />
+  </material>
+  <material name="yellow">
+    <color rgba="0.8 0.8 0.0 1.0" />
+  </material>
+  <material name="black">
+    <color rgba="0.15 0.15 0.15 1.0" />
+  </material>
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0" />
+  </material>
+  <material name="red">
+    <color rgba="1.0 0.0 0.0 1.0" />
+  </material>
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/base_link.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0 0.061875" />
+      <geometry>
+        <box size="0.9874 0.5709 0.12375" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.17562499999999998" />
+      <geometry>
+        <box size="0.7899200000000001 0.5709 0.10375" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="base_footprint" />
+  <joint name="base_footprint_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 -0.13228" />
+    <parent link="base_link" />
+    <child link="base_footprint" />
+  </joint>
+  <link name="inertial_link">
+    <inertial>
+      <mass value="46.034" />
+      <origin xyz="-0.00065 -0.085 0.062" />
+      <inertia ixx="0.6022" ixy="-0.02364" ixz="-0.1197" iyy="1.7386" iyz="-0.001544" izz="2.0296" />
+    </inertial>
+  </link>
+  <joint name="inertial_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="base_link" />
+    <child link="inertial_link" />
+  </joint>
+  <link name="imu_link" />
+  <joint name="imu_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="base_link" />
+    <child link="imu_link" />
+  </joint>
+  <link name="gps_link" />
+  <joint name="gps_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="base_link" />
+    <child link="gps_link" />
+  </joint>
+  <link name="front_left_wheel">
+    <inertial>
+      <mass value="2.637" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.02467" ixy="0" ixz="0" iyy="0.04411" iyz="0" izz="0.02467" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/wheel.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.570795 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="0.1143" radius="0.1651" />
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="front_left_wheel">
+    <mu1 value="1.0" />
+    <mu2 value="0.5" />
+    <kp value="10000000.0" />
+    <kd value="1.0" />
+    <fdir1 value="1 0 0" />
+  </gazebo>
+  <joint name="front_left_wheel_joint" type="continuous">
+    <parent link="base_link" />
+    <child link="front_left_wheel" />
+    <origin rpy="0 0 0" xyz="0.256 0.2854 0.03282" />
+    <axis rpy="0 0 0" xyz="0 1 0" />
+  </joint>
+  <link name="front_right_wheel">
+    <inertial>
+      <mass value="2.637" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.02467" ixy="0" ixz="0" iyy="0.04411" iyz="0" izz="0.02467" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/wheel.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.570795 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="0.1143" radius="0.1651" />
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="front_right_wheel">
+    <mu1 value="1.0" />
+    <mu2 value="0.5" />
+    <kp value="10000000.0" />
+    <kd value="1.0" />
+    <fdir1 value="1 0 0" />
+  </gazebo>
+  <joint name="front_right_wheel_joint" type="continuous">
+    <parent link="base_link" />
+    <child link="front_right_wheel" />
+    <origin rpy="0 0 0" xyz="0.256 -0.2854 0.03282" />
+    <axis rpy="0 0 0" xyz="0 1 0" />
+  </joint>
+  <link name="rear_left_wheel">
+    <inertial>
+      <mass value="2.637" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.02467" ixy="0" ixz="0" iyy="0.04411" iyz="0" izz="0.02467" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/wheel.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.570795 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="0.1143" radius="0.1651" />
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="rear_left_wheel">
+    <mu1 value="1.0" />
+    <mu2 value="0.5" />
+    <kp value="10000000.0" />
+    <kd value="1.0" />
+    <fdir1 value="1 0 0" />
+  </gazebo>
+  <joint name="rear_left_wheel_joint" type="continuous">
+    <parent link="base_link" />
+    <child link="rear_left_wheel" />
+    <origin rpy="0 0 0" xyz="-0.256 0.2854 0.03282" />
+    <axis rpy="0 0 0" xyz="0 1 0" />
+  </joint>
+  <link name="rear_right_wheel">
+    <inertial>
+      <mass value="2.637" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.02467" ixy="0" ixz="0" iyy="0.04411" iyz="0" izz="0.02467" />
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/wheel.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.570795 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder length="0.1143" radius="0.1651" />
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="rear_right_wheel">
+    <mu1 value="1.0" />
+    <mu2 value="0.5" />
+    <kp value="10000000.0" />
+    <kd value="1.0" />
+    <fdir1 value="1 0 0" />
+  </gazebo>
+  <joint name="rear_right_wheel_joint" type="continuous">
+    <parent link="base_link" />
+    <child link="rear_right_wheel" />
+    <origin rpy="0 0 0" xyz="-0.256 -0.2854 0.03282" />
+    <axis rpy="0 0 0" xyz="0 1 0" />
+  </joint>
+  <link name="top_chassis_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/top_chassis.dae" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="top_chassis_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="top_chassis_link" />
+  </joint>
+  <link name="user_rail_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/user_rail.dae" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="user_rail" type="fixed">
+    <origin rpy="0 0 0" xyz="0.272 0 0.245" />
+    <parent link="base_link" />
+    <child link="user_rail_link" />
+  </joint>
+  <link name="front_bumper_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/bumper.dae" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="front_bumper" type="fixed">
+    <origin rpy="0 0 0" xyz="0.48 0 0.091" />
+    <parent link="base_link" />
+    <child link="front_bumper_link" />
+  </joint>
+  <link name="rear_bumper_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/bumper.dae" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="rear_bumper" type="fixed">
+    <origin rpy="0 0 3.14159" xyz="-0.48 0 0.091" />
+    <parent link="base_link" />
+    <child link="rear_bumper_link" />
+  </joint>
+  <link name="top_plate_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/top_plate.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/husky/meshes/top_plate.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="top_plate_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="top_plate_link" />
+    <origin rpy="0 0 0" xyz="0.0812 0 0.245" />
+  </joint>
+  <joint name="top_plate_front_joint" type="fixed">
+    <parent link="top_plate_link" />
+    <child link="top_plate_front_link" />
+    <origin rpy="0 0 0" xyz="0.36367 0 0.00639" />
+  </joint>
+  <joint name="top_plate_rear_joint" type="fixed">
+    <parent link="top_plate_link" />
+    <child link="top_plate_rear_link" />
+    <origin rpy="0 0 0" xyz="-0.36633 0 0.00639" />
+  </joint>
+  <link name="top_plate_front_link" />
+  <link name="top_plate_rear_link" />
+  <ros2_control name="husky_hardware" type="system">
+    <hardware>
+      <plugin>husky_base/HuskyHardware</plugin>
+      <plugin>fake_components/GenericSystem</plugin>
+      <param name="hw_start_duration_sec">2.0</param>
+      <param name="hw_stop_duration_sec">3.0</param>
+      <param name="wheel_diameter">0.3302</param>
+      <param name="max_accel">5.0</param>
+      <param name="max_speed">1.0</param>
+      <param name="polling_timeout">10.0</param>
+      <param name="serial_port">/dev/prolific</param>
+    </hardware>
+    <joint name="front_left_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="rear_left_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="front_right_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="rear_right_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+  </ros2_control>
+  <link name="ur5e_base_link" />
+  <link name="ur5e_base_link_inertia">
+    <visual>
+      <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/visual/base.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/collision/base.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="4.0" />
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <inertia ixx="0.00443333156" ixy="0.0" ixz="0.0" iyy="0.00443333156" iyz="0.0" izz="0.0072" />
+    </inertial>
+  </link>
+  <link name="ur5e_shoulder_link">
+    <visual>
+      <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/visual/shoulder.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/collision/shoulder.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3.761" />
+      <origin rpy="1.570796326794897 0 0" xyz="0.0 -0.00193 -0.02561" />
+      <inertia ixx="0.0070021" ixy="7.3e-07" ixz="-1.053e-05" iyy="0.00648091" iyz="0.00049994" izz="0.00657286" />
+    </inertial>
+  </link>
+  <link name="ur5e_upper_arm_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.138" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/visual/upperarm.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.138" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/collision/upperarm.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="8.058" />
+      <origin rpy="0 0 0" xyz="-0.2125 0.0 0.11336" />
+      <inertia ixx="0.01505885" ixy="-5.4e-05" ixz="5.63e-06" iyy="0.33388086" iyz="-1.81e-06" izz="0.33247207" />
+    </inertial>
+  </link>
+  <link name="ur5e_forearm_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.007" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/visual/forearm.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 -1.5707963267948966" xyz="0 0 0.007" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/collision/forearm.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="2.846" />
+      <origin rpy="0 0 0" xyz="-0.2422 0.0 0.0265" />
+      <inertia ixx="0.00399632" ixy="-1.365e-05" ixz="0.00137272" iyy="0.07879254" iyz="-6.6e-06" izz="0.0784851" />
+    </inertial>
+  </link>
+  <link name="ur5e_wrist_1_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.127" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/visual/wrist1.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 -0.127" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/collision/wrist1.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.37" />
+      <origin rpy="1.570796326794897 0 0" xyz="0.0 -0.01634 -0.0018" />
+      <inertia ixx="0.00165491" ixy="-2.82e-06" ixz="-4.38e-06" iyy="0.00135962" iyz="0.00010157" izz="0.00126279" />
+    </inertial>
+  </link>
+  <link name="ur5e_wrist_2_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 -0.0997" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/visual/wrist2.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 -0.0997" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/collision/wrist2.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.3" />
+      <origin rpy="-1.570796326794897 0 0" xyz="0.0 0.01634 -0.0018" />
+      <inertia ixx="0.00135617" ixy="-2.74e-06" ixz="4.44e-06" iyy="0.00127827" iyz="-5.048e-05" izz="0.00096614" />
+    </inertial>
+  </link>
+  <link name="ur5e_wrist_3_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 -0.0005 -0.0989" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/visual/wrist3.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 -0.0005 -0.0989" />
+      <geometry>
+        <mesh filename="package://husky_ur5e_description/models/ur5e/meshes/ur5e/collision/wrist3.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.365" />
+      <origin rpy="0 0 0" xyz="0.0 0.0 -0.001159" />
+      <inertia ixx="0.00018694" ixy="6e-08" ixz="-1.7e-07" iyy="0.00018908" iyz="-9.2e-07" izz="0.00025756" />
+    </inertial>
+  </link>
+  <joint name="ur5e_base_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.00639" />
+    <parent link="top_plate_link" />
+    <child link="ur5e_base_link" />
+  </joint>
+  <joint name="ur5e_base_link-base_link_inertia" type="fixed">
+    <parent link="ur5e_base_link" />
+    <child link="ur5e_base_link_inertia" />
+    <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+  </joint>
+  <joint name="ur5e_shoulder_pan_joint" type="revolute">
+    <parent link="ur5e_base_link_inertia" />
+    <child link="ur5e_shoulder_link" />
+    <origin rpy="0 0 0" xyz="0 0 0.1625" />
+    <axis xyz="0 0 1" />
+    <limit effort="150.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="3.141592653589793" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <joint name="ur5e_shoulder_lift_joint" type="revolute">
+    <parent link="ur5e_shoulder_link" />
+    <child link="ur5e_upper_arm_link" />
+    <origin rpy="1.570796327 0 0" xyz="0 0 0" />
+    <axis xyz="0 0 1" />
+    <limit effort="150.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="3.141592653589793" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <joint name="ur5e_elbow_joint" type="revolute">
+    <parent link="ur5e_upper_arm_link" />
+    <child link="ur5e_forearm_link" />
+    <origin rpy="0 0 0" xyz="-0.425 0 0" />
+    <axis xyz="0 0 1" />
+    <limit effort="150.0" lower="-3.141592653589793" upper="3.141592653589793" velocity="3.141592653589793" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <joint name="ur5e_wrist_1_joint" type="revolute">
+    <parent link="ur5e_forearm_link" />
+    <child link="ur5e_wrist_1_link" />
+    <origin rpy="0 0 0" xyz="-0.3922 0 0.1333" />
+    <axis xyz="0 0 1" />
+    <limit effort="28.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="3.141592653589793" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <joint name="ur5e_wrist_2_joint" type="revolute">
+    <parent link="ur5e_wrist_1_link" />
+    <child link="ur5e_wrist_2_link" />
+    <origin rpy="1.570796327 0 0" xyz="0 -0.0997 -2.044881182297852e-11" />
+    <axis xyz="0 0 1" />
+    <limit effort="28.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="3.141592653589793" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <joint name="ur5e_wrist_3_joint" type="revolute">
+    <parent link="ur5e_wrist_2_link" />
+    <child link="ur5e_wrist_3_link" />
+    <origin rpy="1.570796326589793 3.141592653589793 3.141592653589793" xyz="0 0.0996 -2.042830148012698e-11" />
+    <axis xyz="0 0 1" />
+    <limit effort="28.0" lower="-6.283185307179586" upper="6.283185307179586" velocity="3.141592653589793" />
+    <dynamics damping="0" friction="0" />
+  </joint>
+  <link name="ur5e_ft_frame" />
+  <joint name="ur5e_wrist_3_link-ft_frame" type="fixed">
+    <parent link="ur5e_wrist_3_link" />
+    <child link="ur5e_ft_frame" />
+    <origin rpy="3.141592653589793 0 0" xyz="0 0 0" />
+  </joint>
+  <link name="ur5e_base" />
+  <joint name="ur5e_base_link-base_fixed_joint" type="fixed">
+    <origin rpy="0 0 3.141592653589793" xyz="0 0 0" />
+    <parent link="ur5e_base_link" />
+    <child link="ur5e_base" />
+  </joint>
+  <link name="ur5e_flange" />
+  <joint name="ur5e_wrist_3-flange" type="fixed">
+    <parent link="ur5e_wrist_3_link" />
+    <child link="ur5e_flange" />
+    <origin rpy="0 -1.5707963267948966 -1.5707963267948966" xyz="0 0 0" />
+  </joint>
+  <link name="ur5e_tool0" />
+  <joint name="ur5e_flange-tool0" type="fixed">
+    <origin rpy="1.5707963267948966 0 1.5707963267948966" xyz="0 0 0" />
+    <parent link="ur5e_flange" />
+    <child link="ur5e_tool0" />
+  </joint>
+  <link name="pen_tip_link" />
+  <joint name="ur5e_tool0_to_pen_tip" type="fixed">
+    <parent link="ur5e_tool0" />
+    <child link="pen_tip_link" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+</robot>

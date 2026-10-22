@@ -1,0 +1,13 @@
+.venv/
+build/
+install/
+log/
+__pycache__/
+*.pyc
+vr_run.csv
+vr_short.csv
+vr_ocs2_run.csv
+vr_ocs2_short.csv
+third_party/debs/
+third_party/ros/
+runs/

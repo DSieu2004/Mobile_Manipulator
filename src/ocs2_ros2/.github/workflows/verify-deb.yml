@@ -1,0 +1,189 @@
+name: Verify Deb
+
+# Called by build-deb.yml after release assets are uploaded, or run manually to
+# re-verify any existing release tag.
+on:
+  workflow_call:
+    inputs:
+      release_tag:
+        description: "Release tag to verify (e.g. v1.0.0 or pre-release)"
+        required: true
+        type: string
+      ros_distro:
+        description: "ROS 2 distro (empty = verify jazzy and lyrical)"
+        required: false
+        default: ""
+        type: string
+      deb_version:
+        description: "Override deb version (required for pre-release; otherwise tag without leading v)"
+        required: false
+        default: ""
+        type: string
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release tag to verify (e.g. v1.0.0 or pre-release)"
+        required: true
+        type: string
+      ros_distro:
+        description: "ROS 2 distro (empty = verify jazzy and lyrical)"
+        required: false
+        default: ""
+        type: choice
+        options:
+          - ""
+          - jazzy
+          - lyrical
+      deb_version:
+        description: "Override deb version (required for pre-release; otherwise tag without leading v)"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  # In workflow_call, github.workflow is the caller workflow name. Keep this
+  # group independent from build-deb.yml to avoid caller/callee deadlocks.
+  group: verify-deb-${{ inputs.release_tag || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  select_matrix:
+    name: select verify matrix
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.set_matrix.outputs.matrix }}
+    steps:
+      - name: Compute matrix from input
+        id: set_matrix
+        shell: bash
+        run: |
+          set -eo pipefail
+          selected="${{ inputs.ros_distro }}"
+          if [[ -z "${selected}" ]]; then
+            matrix='{"include":[{"ros_distro":"jazzy","arch":"amd64","runner":"ubuntu-24.04","image":"ros:jazzy-ros-base-noble"},{"ros_distro":"jazzy","arch":"arm64","runner":"ubuntu-24.04-arm","image":"ros:jazzy-ros-base-noble"},{"ros_distro":"lyrical","arch":"amd64","runner":"ubuntu-24.04","image":"ros:lyrical-ros-base-resolute"},{"ros_distro":"lyrical","arch":"arm64","runner":"ubuntu-24.04-arm","image":"ros:lyrical-ros-base-resolute"}]}'
+          elif [[ "${selected}" == "jazzy" ]]; then
+            matrix='{"include":[{"ros_distro":"jazzy","arch":"amd64","runner":"ubuntu-24.04","image":"ros:jazzy-ros-base-noble"},{"ros_distro":"jazzy","arch":"arm64","runner":"ubuntu-24.04-arm","image":"ros:jazzy-ros-base-noble"}]}'
+          elif [[ "${selected}" == "lyrical" ]]; then
+            matrix='{"include":[{"ros_distro":"lyrical","arch":"amd64","runner":"ubuntu-24.04","image":"ros:lyrical-ros-base-resolute"},{"ros_distro":"lyrical","arch":"arm64","runner":"ubuntu-24.04-arm","image":"ros:lyrical-ros-base-resolute"}]}'
+          else
+            echo "Unsupported ros_distro input: ${selected}" >&2
+            exit 1
+          fi
+          echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
+
+  verify_deb:
+    name: verify deb (${{ matrix.ros_distro }}, ${{ matrix.arch }})
+    needs: select_matrix
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.select_matrix.outputs.matrix) }}
+    container:
+      image: ${{ matrix.image }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Resolve metadata
+        id: meta
+        shell: bash
+        env:
+          DEB_FILE_PREFIX: ros-${{ matrix.ros_distro }}-ocs2
+        run: |
+          set -eo pipefail
+          chmod +x scripts/*.sh
+          INPUT_RELEASE_TAG="${{ inputs.release_tag }}" \
+          INPUT_ROS_DISTRO="${{ matrix.ros_distro }}" \
+          INPUT_DEB_VERSION="${{ inputs.deb_version }}" \
+          INPUT_DEB_ARCH="${{ matrix.arch }}" \
+          PRE_RELEASE_TAG="pre-release" \
+          scripts/resolve_release_meta.sh | tee /tmp/release_meta.txt
+
+          while IFS='=' read -r key value; do
+            echo "${key}=${value}" >> "$GITHUB_OUTPUT"
+          done < /tmp/release_meta.txt
+          echo "install_prefix=/opt/ros/${{ matrix.ros_distro }}" >> "$GITHUB_OUTPUT"
+
+          echo "Tag: $(grep '^release_tag=' /tmp/release_meta.txt | cut -d= -f2-), distro: $(grep '^ros_distro=' /tmp/release_meta.txt | cut -d= -f2-), arch: $(grep '^deb_arch=' /tmp/release_meta.txt | cut -d= -f2-), deb: $(grep '^deb_file=' /tmp/release_meta.txt | cut -d= -f2-)"
+
+      # Match build-deb: Jazzy on Noble, Lyrical on Resolute. Noble apt has no
+      # ros-lyrical packages (Tier 1 Lyrical is Ubuntu 26.04 only).
+      - name: Install verify tools
+        timeout-minutes: 8
+        shell: bash
+        run: |
+          set -eo pipefail
+          export DEBIAN_FRONTEND=noninteractive
+          bash .github/scripts/configure_ci_apt.sh
+          apt-get update
+          apt-get install -y curl ca-certificates cmake build-essential git
+          if ! command -v gh >/dev/null 2>&1; then
+            curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+              | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+            chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+            echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+              > /etc/apt/sources.list.d/github-cli.list
+            apt-get update
+            apt-get install -y gh
+          fi
+          gh --version
+          if [[ ! -f /opt/ros/${{ matrix.ros_distro }}/setup.bash ]]; then
+            echo "Expected ROS under /opt/ros/${{ matrix.ros_distro }} (image ${{ matrix.image }})" >&2
+            ls -la "/opt/ros" || true
+            exit 1
+          fi
+          # shellcheck disable=SC1091
+          source "/opt/ros/${{ matrix.ros_distro }}/setup.bash"
+          test "${ROS_DISTRO}" = "${{ matrix.ros_distro }}"
+          # Smoke-test ros2cli without piping to head: head closes the pipe early and
+          # ros2 pkg list raises BrokenPipeError (exit 120), which fails pipefail.
+          ros2 pkg prefix ament_cmake >/dev/null
+          echo "ROS environment ok: ${ROS_DISTRO}"
+
+      - name: Download deb from release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -eo pipefail
+          deb_file="${{ steps.meta.outputs.deb_file }}"
+          release_tag="${{ steps.meta.outputs.release_tag }}"
+
+          # The publish job has completed, but keep a short wait for GitHub's
+          # release asset API to become consistent on both architectures.
+          for attempt in {1..60}; do
+            rm -f "${deb_file}"
+            if gh release download "${release_tag}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --pattern "${deb_file}"; then
+              break
+            fi
+            echo "Asset ${deb_file} is not available yet (attempt ${attempt}/60); retrying in 30s..."
+            sleep 30
+          done
+
+          if [[ ! -f "${deb_file}" ]]; then
+            echo "Timed out waiting for ${deb_file} in release ${release_tag}." >&2
+            echo "Current release assets:" >&2
+            gh release view "${release_tag}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --json assets \
+              --jq '.assets[].name' || true
+            exit 1
+          fi
+
+          echo "Downloaded: ${deb_file}"
+          ls -lh "${deb_file}"
+
+      - name: Install deb and verify downstream configure
+        shell: bash
+        run: |
+          set -eo pipefail
+          chmod +x scripts/*.sh
+          scripts/consume_release_deb.sh \
+            --deb-file "${{ steps.meta.outputs.deb_file }}" \
+            --ros-distro "${{ steps.meta.outputs.ros_distro }}" \
+            --install-prefix "${{ steps.meta.outputs.install_prefix }}"

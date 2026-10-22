@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot name="husky_ur5e" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find husky_ur5e_description)/models/husky/urdf/husky_macro.urdf.xacro"/>
+  <xacro:include filename="$(find husky_ur5e_description)/models/ur5e/urdf/ur_macro.xacro"/>
+
+  <xacro:husky prefix=""/>
+
+  <!-- The UR5e base sits flush on the Husky top plate (6.39 mm thick). -->
+  <xacro:ur_robot
+    name="ur5e"
+    tf_prefix="ur5e_"
+    parent="top_plate_link"
+    ur_type="ur5e"
+    joint_limits_parameters_file="$(find husky_ur5e_description)/models/ur5e/config/ur5e/joint_limits.yaml"
+    kinematics_parameters_file="$(find husky_ur5e_description)/models/ur5e/config/ur5e/default_kinematics.yaml"
+    physical_parameters_file="$(find husky_ur5e_description)/models/ur5e/config/ur5e/physical_parameters.yaml"
+    visual_parameters_file="$(find husky_ur5e_description)/models/ur5e/config/ur5e/visual_parameters.yaml"
+    generate_ros2_control_tag="false">
+    <origin xyz="0 0 0.00639" rpy="0 0 0"/>
+  </xacro:ur_robot>
+
+  <!-- The pen tip and OCS2 end-effector frame coincide with UR tool0. -->
+  <link name="pen_tip_link"/>
+  <joint name="ur5e_tool0_to_pen_tip" type="fixed">
+    <parent link="ur5e_tool0"/>
+    <child link="pen_tip_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>

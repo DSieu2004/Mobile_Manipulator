@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="husky_ur5e_drawing">
+  <compiler angle="radian" />
+
+  <asset>
+    <mesh name="top_plate" content_type="model/obj" file="/home/dinhsieu/Clearpath_mobile_manipulator/src/Clearpath_mobile_manipulator/mujoco/assets/models/husky/meshes/top_plate.obj" />
+    <mesh name="base" content_type="model/obj" file="/home/dinhsieu/Clearpath_mobile_manipulator/src/Clearpath_mobile_manipulator/mujoco/assets/models/ur5e/meshes/ur5e/visual/base.obj" />
+    <mesh name="shoulder" content_type="model/obj" file="/home/dinhsieu/Clearpath_mobile_manipulator/src/Clearpath_mobile_manipulator/mujoco/assets/models/ur5e/meshes/ur5e/visual/shoulder.obj" />
+    <mesh name="upperarm" content_type="model/obj" file="/home/dinhsieu/Clearpath_mobile_manipulator/src/Clearpath_mobile_manipulator/mujoco/assets/models/ur5e/meshes/ur5e/visual/upperarm.obj" />
+    <mesh name="forearm" content_type="model/obj" file="/home/dinhsieu/Clearpath_mobile_manipulator/src/Clearpath_mobile_manipulator/mujoco/assets/models/ur5e/meshes/ur5e/visual/forearm.obj" />
+    <mesh name="wrist1" content_type="model/obj" file="/home/dinhsieu/Clearpath_mobile_manipulator/src/Clearpath_mobile_manipulator/mujoco/assets/models/ur5e/meshes/ur5e/visual/wrist1.obj" />
+    <mesh name="wrist2" content_type="model/obj" file="/home/dinhsieu/Clearpath_mobile_manipulator/src/Clearpath_mobile_manipulator/mujoco/assets/models/ur5e/meshes/ur5e/visual/wrist2.obj" />
+    <mesh name="wrist3" content_type="model/obj" file="/home/dinhsieu/Clearpath_mobile_manipulator/src/Clearpath_mobile_manipulator/mujoco/assets/models/ur5e/meshes/ur5e/visual/wrist3.obj" />
+  <texture name="blue_sky" type="skybox" builtin="gradient" rgb1="0.20 0.36 0.54" rgb2="0.39 0.57 0.76" width="512" height="512" /><texture name="blue_grid" type="2d" file="assets/blue_floor.png" /><material name="blue_floor" texture="blue_grid" texrepeat="8 8" texuniform="true" reflectance="0.08" /><mesh name="brand_base_link_0" file="assets/colored/brand_base_link_0.obj" /><mesh name="brand_wheel_0" file="assets/colored/brand_wheel_0.obj" /><mesh name="brand_top_chassis_0" file="assets/colored/brand_top_chassis_0.obj" /><mesh name="brand_bumper_0" file="assets/colored/brand_bumper_0.obj" /><mesh name="brand_top_plate_0" file="assets/colored/brand_top_plate_0.obj" /><mesh name="brand_user_rail_0" file="assets/colored/brand_user_rail_0.obj" /><mesh name="brand_base_0" file="assets/colored/brand_base_0.obj" /><mesh name="brand_base_1" file="assets/colored/brand_base_1.obj" /><mesh name="brand_shoulder_0" file="assets/colored/brand_shoulder_0.obj" /><mesh name="brand_shoulder_1" file="assets/colored/brand_shoulder_1.obj" /><mesh name="brand_shoulder_2" file="assets/colored/brand_shoulder_2.obj" /><mesh name="brand_upperarm_0" file="assets/colored/brand_upperarm_0.obj" /><mesh name="brand_upperarm_1" file="assets/colored/brand_upperarm_1.obj" /><mesh name="brand_upperarm_2" file="assets/colored/brand_upperarm_2.obj" /><mesh name="brand_upperarm_3" file="assets/colored/brand_upperarm_3.obj" /><mesh name="brand_upperarm_4" file="assets/colored/brand_upperarm_4.obj" /><mesh name="brand_upperarm_5" file="assets/colored/brand_upperarm_5.obj" /><mesh name="brand_upperarm_6" file="assets/colored/brand_upperarm_6.obj" /><mesh name="brand_upperarm_7" file="assets/colored/brand_upperarm_7.obj" /><mesh name="brand_forearm_0" file="assets/colored/brand_forearm_0.obj" /><mesh name="brand_forearm_1" file="assets/colored/brand_forearm_1.obj" /><mesh name="brand_forearm_2" file="assets/colored/brand_forearm_2.obj" /><mesh name="brand_forearm_3" file="assets/colored/brand_forearm_3.obj" /><mesh name="brand_forearm_4" file="assets/colored/brand_forearm_4.obj" /><mesh name="brand_forearm_5" file="assets/colored/brand_forearm_5.obj" /><mesh name="brand_forearm_6" file="assets/colored/brand_forearm_6.obj" /><mesh name="brand_wrist1_0" file="assets/colored/brand_wrist1_0.obj" /><mesh name="brand_wrist1_1" file="assets/colored/brand_wrist1_1.obj" /><mesh name="brand_wrist1_2" file="assets/colored/brand_wrist1_2.obj" /><mesh name="brand_wrist2_0" file="assets/colored/brand_wrist2_0.obj" /><mesh name="brand_wrist2_1" file="assets/colored/brand_wrist2_1.obj" /><mesh name="brand_wrist2_2" file="assets/colored/brand_wrist2_2.obj" /><mesh name="brand_wrist3_0" file="assets/colored/brand_wrist3_0.obj" /></asset>
+
+  <worldbody>
+    <body name="base_link" pos="0 0 0.13228">
+      <inertial pos="0.0029789 -0.0231611 0.100807" quat="-0.0199933 0.698965 -0.0147459 0.714724" mass="169.29" diaginertia="13.7934 10.7134 4.80408" />
+      <joint name="world_to_base" type="free" />
+      <geom pos="0 0 0" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_base_link_0" rgba="0.101961 0.101961 0.101961 1" /><geom size="0.4937 0.28545 0.061875" pos="0 0 0.061875" type="box" group="3" />
+      <geom size="0.39496 0.28545 0.051875" pos="0 0 0.175625" type="box" group="3" />
+      <body name="front_left_wheel" pos="0.256 0.2854 0.03282">
+        <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.637" diaginertia="0.04411 0.02467 0.02467" />
+        <joint name="front_left_wheel_joint" axis="0 1 0" />
+        <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wheel_0" rgba="0.2 0.2 0.2 1" /><geom size="0.1651 0.05715" quat="0.707107 0.707106 0 0" type="cylinder" friction="0.04 0.005 0.0001" priority="1" group="3" />
+      </body>
+      <body name="front_right_wheel" pos="0.256 -0.2854 0.03282">
+        <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.637" diaginertia="0.04411 0.02467 0.02467" />
+        <joint name="front_right_wheel_joint" axis="0 1 0" />
+        <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wheel_0" rgba="0.2 0.2 0.2 1" /><geom size="0.1651 0.05715" quat="0.707107 0.707106 0 0" type="cylinder" friction="0.04 0.005 0.0001" priority="1" group="3" />
+      </body>
+      <body name="rear_left_wheel" pos="-0.256 0.2854 0.03282">
+        <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.637" diaginertia="0.04411 0.02467 0.02467" />
+        <joint name="rear_left_wheel_joint" axis="0 1 0" />
+        <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wheel_0" rgba="0.2 0.2 0.2 1" /><geom size="0.1651 0.05715" quat="0.707107 0.707106 0 0" type="cylinder" friction="0.04 0.005 0.0001" priority="1" group="3" />
+      </body>
+      <body name="rear_right_wheel" pos="-0.256 -0.2854 0.03282">
+        <inertial pos="0 0 0" quat="0.707107 0 0 0.707107" mass="2.637" diaginertia="0.04411 0.02467 0.02467" />
+        <joint name="rear_right_wheel_joint" axis="0 1 0" />
+        <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wheel_0" rgba="0.2 0.2 0.2 1" /><geom size="0.1651 0.05715" quat="0.707107 0.707106 0 0" type="cylinder" friction="0.04 0.005 0.0001" priority="1" group="3" />
+      </body>
+      <frame pos="0 0 -0.13228" />
+      <geom pos="0 0 0" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_top_chassis_0" rgba="0.8 0.8 0 1" /><frame pos="0.272 0 0.245">
+        <geom pos="0 0 0" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_user_rail_0" rgba="0.101961 0.101961 0.101961 1" /></frame>
+      <frame pos="0.48 0 0.091">
+        <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_bumper_0" rgba="0.101961 0.101961 0.101961 1" /></frame>
+      <frame pos="-0.48 0 0.091" quat="1.32679e-06 0 0 1">
+        <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_bumper_0" rgba="0.101961 0.101961 0.101961 1" /></frame>
+      <frame pos="0.0812 0 0.245">
+        <geom quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_top_plate_0" rgba="0.0784314 0.0784314 0.0784314 1" /><geom quat="1 0 0 0" type="mesh" mesh="top_plate" group="3" />
+        <frame pos="0.36367 0 0.00639" />
+        <frame pos="-0.36633 0 0.00639" />
+        <frame pos="0 0 0.00639">
+          <frame quat="0 0 0 1">
+            <geom pos="0 0 0" quat="0 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_base_0" rgba="0.278431 0.278431 0.278431 1" /><geom pos="0 0 0" quat="0 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_base_1" rgba="0.0313725 0.0313725 0.0313725 1" /><geom pos="0 0 0" quat="0 0 0 1" type="mesh" mesh="base" group="3" />
+            <body name="ur5e_shoulder_link" pos="0 0 0.1625">
+              <inertial pos="0 -0.00193 -0.02561" quat="0.73527 -0.287588 0.218944 0.573354" mass="3.761" diaginertia="0.00703079 0.0070003 0.00602478" />
+              <joint name="ur5e_shoulder_pan_joint" range="-6.28319 6.28319" actuatorfrcrange="-150 150" damping="15" armature="0.05" />
+              <geom quat="0 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_shoulder_0" rgba="0.278431 0.278431 0.278431 1" /><geom quat="0 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_shoulder_1" rgba="0.0313725 0.0313725 0.0313725 1" /><geom quat="0 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_shoulder_2" rgba="0.490196 0.678431 0.8 1" /><geom quat="0 0 0 1" type="mesh" mesh="shoulder" group="3" />
+              <body name="ur5e_upper_arm_link" quat="0.707107 0.707107 0 0">
+                <inertial pos="-0.2125 0 0.11336" quat="0.500275 0.499641 0.500368 0.499716" mass="8.058" diaginertia="0.333881 0.332472 0.0150588" />
+                <joint name="ur5e_shoulder_lift_joint" range="-6.28319 6.28319" actuatorfrcrange="-150 150" damping="15" armature="0.05" />
+                <geom pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_upperarm_0" rgba="0.490196 0.678431 0.8 1" /><geom pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_upperarm_1" rgba="0.278431 0.278431 0.278431 1" /><geom pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_upperarm_2" rgba="0.0313725 0.0313725 0.0313725 1" /><geom pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_upperarm_3" rgba="0.490196 0.678431 0.8 1" /><geom pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_upperarm_4" rgba="0.819608 0.819608 0.819608 1" /><geom pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_upperarm_5" rgba="0.0313725 0.0313725 0.0313725 1" /><geom pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_upperarm_6" rgba="0.278431 0.278431 0.278431 1" /><geom pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_upperarm_7" rgba="0.0313725 0.0313725 0.0313725 1" /><geom pos="0 0 0.138" quat="0.5 0.5 -0.5 -0.5" type="mesh" mesh="upperarm" group="3" />
+                <body name="ur5e_forearm_link" pos="-0.425 0 0">
+                  <inertial pos="-0.2422 0 0.0265" quat="0.501301 0.498381 0.510711 0.489375" mass="2.846" diaginertia="0.0787927 0.0785102 0.00397103" />
+                  <joint name="ur5e_elbow_joint" range="-3.14159 3.14159" actuatorfrcrange="-150 150" damping="15" armature="0.05" />
+                  <geom pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_forearm_0" rgba="0.278431 0.278431 0.278431 1" /><geom pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_forearm_1" rgba="0.278431 0.278431 0.278431 1" /><geom pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_forearm_2" rgba="0.0313725 0.0313725 0.0313725 1" /><geom pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_forearm_3" rgba="0.819608 0.819608 0.819608 1" /><geom pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_forearm_4" rgba="0.0313725 0.0313725 0.0313725 1" /><geom pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_forearm_5" rgba="0.490196 0.678431 0.8 1" /><geom pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_forearm_6" rgba="0.0313725 0.0313725 0.0313725 1" /><geom pos="0 0 0.007" quat="0.5 0.5 -0.5 -0.5" type="mesh" mesh="forearm" group="3" />
+                  <body name="ur5e_wrist_1_link" pos="-0.3922 0 0.1333">
+                    <inertial pos="0 -0.01634 -0.0018" quat="0.482884 0.875621 0.0101018 -0.00281819" mass="1.37" diaginertia="0.00165502 0.00142363 0.00119868" />
+                    <joint name="ur5e_wrist_1_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" damping="15" armature="0.05" />
+                    <geom pos="0 0 -0.127" quat="0.707107 0.707107 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wrist1_0" rgba="0.278431 0.278431 0.278431 1" /><geom pos="0 0 -0.127" quat="0.707107 0.707107 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wrist1_1" rgba="0.490196 0.678431 0.8 1" /><geom pos="0 0 -0.127" quat="0.707107 0.707107 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wrist1_2" rgba="0.0313725 0.0313725 0.0313725 1" /><geom pos="0 0 -0.127" quat="0.707107 0.707107 0 0" type="mesh" mesh="wrist1" group="3" />
+                    <body name="ur5e_wrist_2_link" pos="0 -0.0997 -2.04488e-11" quat="0.707107 0.707107 0 0">
+                      <inertial pos="0 0.01634 -0.0018" quat="0.759847 0.649632 -0.0119443 0.0216264" mass="1.3" diaginertia="0.00135637 0.00128607 0.00095814" />
+                      <joint name="ur5e_wrist_2_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" damping="15" armature="0.05" />
+                      <geom pos="0 0 -0.0997" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wrist2_0" rgba="0.278431 0.278431 0.278431 1" /><geom pos="0 0 -0.0997" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wrist2_1" rgba="0.490196 0.678431 0.8 1" /><geom pos="0 0 -0.0997" quat="1 0 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wrist2_2" rgba="0.0313725 0.0313725 0.0313725 1" /><geom pos="0 0 -0.0997" quat="1 0 0 0" type="mesh" mesh="wrist2" group="3" />
+                      <body name="ur5e_wrist_3_link" pos="0 0.0996 -2.04283e-11" quat="0.707107 -0.707107 0 0">
+                        <inertial pos="0 0 -0.001159" quat="0.0048234 0.706235 -0.0143444 0.707816" mass="0.365" diaginertia="0.000257573 0.000189069 0.000186938" />
+                        <joint name="ur5e_wrist_3_joint" range="-6.28319 6.28319" actuatorfrcrange="-28 28" damping="15" armature="0.05" />
+                        <geom pos="0 -0.0005 -0.0989" quat="0.707107 0.707107 0 0" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="brand_wrist3_0" rgba="0.819608 0.819608 0.819608 1" /><geom pos="0 -0.0005 -0.0989" quat="0.707107 0.707107 0 0" type="mesh" mesh="wrist3" group="3" />
+                        <frame quat="0 1 0 0" />
+                        <frame quat="0.5 -0.5 -0.5 -0.5">
+                          <frame quat="0.5 0.5 0.5 0.5" />
+                        </frame>
+                      <body name="pen" pos="0 0 0"><geom name="pen_shaft" type="cylinder" fromto="0 0 -0.07 0 0 -0.01" size="0.012" rgba="0.1 0.1 0.13 1" contype="0" conaffinity="0" /><geom name="pen_tip_geom" type="sphere" pos="0 0 0" size="0.008" mass="0.015" rgba="0.85 0.05 0.08 1" friction="0.7 0.005 0.0001" /><site name="pen_tip" pos="0 0 0" size="0.004" rgba="1 0 0 1" /><site name="pen_contact_zone" type="sphere" pos="0 0 0" size="0.012" rgba="0 0 0 0" /></body></body>
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </frame>
+          <frame quat="0 0 0 1" />
+        </frame>
+      </frame>
+    </body>
+  <geom name="floor" type="plane" pos="0 0 0" size="4 4 0.1" material="blue_floor" friction="1.2 0.005 0.0001" /><geom name="drawing_wall" type="box" pos="1.15 0 1.0" size="0.025 1.5 1.0" rgba="0.70 0.75 0.82 1" friction="0.8 0.005 0.0001" /><light name="neutral_fill" pos="0 0 3" dir="0 0 -1" directional="true" ambient="0.7 0.7 0.7" diffuse="0.55 0.55 0.55" castshadow="false" /><camera name="overview" pos="-2.5 -2.5 1.9" xyaxes="0.7 -0.7 0 0.25 0.25 0.93" /></worldbody>
+<option timestep="0.002" integrator="implicitfast" iterations="50" /><actuator><velocity name="front_left_wheel_joint_velocity" joint="front_left_wheel_joint" kv="200" ctrlrange="-12 12" ctrllimited="true" /><velocity name="rear_left_wheel_joint_velocity" joint="rear_left_wheel_joint" kv="200" ctrlrange="-12 12" ctrllimited="true" /><velocity name="front_right_wheel_joint_velocity" joint="front_right_wheel_joint" kv="200" ctrlrange="-12 12" ctrllimited="true" /><velocity name="rear_right_wheel_joint_velocity" joint="rear_right_wheel_joint" kv="200" ctrlrange="-12 12" ctrllimited="true" /><velocity name="ur5e_shoulder_pan_velocity" joint="ur5e_shoulder_pan_joint" kv="80" ctrlrange="-0.5 0.5" ctrllimited="true" /><velocity name="ur5e_shoulder_lift_velocity" joint="ur5e_shoulder_lift_joint" kv="80" ctrlrange="-0.5 0.5" ctrllimited="true" /><velocity name="ur5e_elbow_velocity" joint="ur5e_elbow_joint" kv="80" ctrlrange="-0.5 0.5" ctrllimited="true" /><velocity name="ur5e_wrist_1_velocity" joint="ur5e_wrist_1_joint" kv="80" ctrlrange="-0.5 0.5" ctrllimited="true" /><velocity name="ur5e_wrist_2_velocity" joint="ur5e_wrist_2_joint" kv="80" ctrlrange="-0.5 0.5" ctrllimited="true" /><velocity name="ur5e_wrist_3_velocity" joint="ur5e_wrist_3_joint" kv="80" ctrlrange="-0.5 0.5" ctrllimited="true" /></actuator><sensor><touch name="pen_normal_force" site="pen_contact_zone" /></sensor></mujoco>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>husky_ur5e_description</name>
+  <version>0.1.0</version>
+  <description>Husky-style ideal omni base with UR5e for MuJoCo and RViz.</description>
+  <maintainer email="maintainer@example.com">Workspace maintainer</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>joint_state_publisher_gui</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>ocs2_mobile_manipulator_ros</exec_depend>
+  <exec_depend>ocs2_msgs</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
